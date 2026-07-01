@@ -13,8 +13,8 @@ import shutil
 from pathlib import Path
 
 REPO_OWNER = "gabrieldesignhd-rgb"
-REPO_NAME = "mihon-extensions"
-REPO_DISPLAY_NAME = "Gabriel Mihon Extensions"
+REPO_NAME = "ONGRID-EXTENSOES"
+REPO_DISPLAY_NAME = "ONGRID Extensões"
 REPO_WEBSITE = f"https://github.com/{REPO_OWNER}/{REPO_NAME}"
 
 

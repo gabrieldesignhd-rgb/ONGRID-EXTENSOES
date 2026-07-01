@@ -1,4 +1,4 @@
-# Gabriel Mihon Extensions
+# ONGRID Extensões
 
 Repositório pessoal de extensões compatíveis com Mihon.
 
@@ -26,7 +26,7 @@ automaticamente os APKs e o `index.min.json` na branch gerada `repo`.
 Depois que o primeiro workflow terminar:
 
 ```text
-https://raw.githubusercontent.com/gabrieldesignhd-rgb/mihon-extensions/repo/index.min.json
+https://raw.githubusercontent.com/gabrieldesignhd-rgb/ONGRID-EXTENSOES/repo/index.min.json
 ```
 
 ## Segredos necessários no GitHub
