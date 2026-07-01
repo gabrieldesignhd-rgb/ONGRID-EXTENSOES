@@ -76,6 +76,23 @@ jobs:
           chmod +x gradlew
           ./gradlew :src:pt:lycantoons:assembleRelease
 
+      - name: Compute signing key fingerprint
+        working-directory: builder
+        shell: bash
+        env:
+          ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          FINGERPRINT="$(keytool -list -v -keystore signingkey.jks -alias "$ALIAS" -storepass "$KEY_STORE_PASSWORD" \
+            | grep 'SHA256:' \
+            | head -n1 \
+            | sed 's/.*SHA256: *//' \
+            | tr -d ': \r\n' \
+            | tr '[:upper:]' '[:lower:]')"
+          test -n "$FINGERPRINT"
+          echo "SIGNING_KEY_FINGERPRINT=$FINGERPRINT" >> "$GITHUB_ENV"
+
       - name: Assemble Mihon repository
         shell: bash
         run: |
@@ -93,6 +110,7 @@ jobs:
           python - <<'PY'
           import html
           import json
+          import os
           from pathlib import Path
 
           entry = json.loads(Path("repo-entry.json").read_text(encoding="utf-8"))
@@ -102,6 +120,20 @@ jobs:
           )
           Path("publish/index.json").write_text(
               json.dumps([entry], ensure_ascii=False, indent=2),
+              encoding="utf-8",
+          )
+          Path("publish/repo.json").write_text(
+              json.dumps(
+                  {
+                      "meta": {
+                          "name": "Gabriel Mihon Extensions",
+                          "website": "https://github.com/gabrieldesignhd-rgb/mihon-extensions",
+                          "signingKeyFingerprint": os.environ["SIGNING_KEY_FINGERPRINT"],
+                      },
+                  },
+                  ensure_ascii=False,
+                  indent=2,
+              ),
               encoding="utf-8",
           )
 
