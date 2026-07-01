@@ -54,8 +54,7 @@ abstract class NoxToons : HttpSource() {
 
     override fun searchMangaParse(response: Response): MangasPage = response.parseAs<ComicsDto>().toMangasPage()
 
-    private fun comicsRequest(page: Int, filter: String): Request =
-        GET("$API_URL/comics?$filter&page=$page&per_page=$PER_PAGE", headers)
+    private fun comicsRequest(page: Int, filter: String): Request = GET("$API_URL/comics?$filter&page=$page&per_page=$PER_PAGE", headers)
 
     // =====================Details=====================
 
@@ -67,20 +66,16 @@ abstract class NoxToons : HttpSource() {
 
     // =====================Chapters=====================
 
-    override fun chapterListRequest(manga: SManga): Request =
-        GET("$API_URL/comics/slug/${manga.url}/chapters?page=1&per_page=2000", headers)
+    override fun chapterListRequest(manga: SManga): Request = GET("$API_URL/comics/slug/${manga.url}/chapters?page=1&per_page=2000", headers)
 
-    override fun chapterListParse(response: Response): List<SChapter> =
-        response.parseAs<ChaptersDto>().chapters.map { it.toSChapter() }
+    override fun chapterListParse(response: Response): List<SChapter> = response.parseAs<ChaptersDto>().chapters.map { it.toSChapter() }
 
     // =====================Pages=====================
 
     override fun pageListRequest(chapter: SChapter): Request = GET("$API_URL/chapters/${chapter.url}", headers)
 
-    override fun pageListParse(response: Response): List<Page> {
-        return response.parseAs<ChapterPagesDto>().pages.mapIndexed { index, page ->
-            Page(index, imageUrl = page.imageUrl)
-        }
+    override fun pageListParse(response: Response): List<Page> = response.parseAs<ChapterPagesDto>().pages.mapIndexed { index, page ->
+        Page(index, imageUrl = page.imageUrl)
     }
 
     override fun imageUrlParse(response: Response): String = throw UnsupportedOperationException()
