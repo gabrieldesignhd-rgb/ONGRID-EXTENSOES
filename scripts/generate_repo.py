@@ -12,7 +12,7 @@ import re
 import shutil
 from pathlib import Path
 
-REPO_OWNER = "gabrieldesignhd-rgb"
+REPO_OWNER = "OngridHUB"
 REPO_NAME = "ONGRID-EXTENSOES"
 REPO_DISPLAY_NAME = "ONGRID Extensões"
 REPO_WEBSITE = f"https://github.com/{REPO_OWNER}/{REPO_NAME}"

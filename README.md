@@ -15,6 +15,6 @@ Repositório pessoal de extensões compatíveis com Mihon.
 Depois que o primeiro workflow terminar:
 
 ```text
-https://raw.githubusercontent.com/gabrieldesignhd-rgb/ONGRID-EXTENSOES/repo/index.min.json
+https://raw.githubusercontent.com/OngridHUB/ONGRID-EXTENSOES/repo/index.min.json
 ```
 

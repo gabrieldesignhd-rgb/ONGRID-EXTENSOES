@@ -7,4 +7,4 @@ extensions project and is distributed under the Apache License 2.0.
 - Mihon project: https://github.com/mihonapp/mihon
 
 The personal repository, signing identity, generated APKs, and repository index
-are maintained independently by gabrieldesignhd-rgb.
+are maintained independently by OngridHUB.
