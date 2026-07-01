@@ -2,6 +2,7 @@ package eu.kanade.tachiyomi.extension.pt.nexusmangas
 
 import eu.kanade.tachiyomi.source.model.SChapter
 import eu.kanade.tachiyomi.source.model.SManga
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -9,27 +10,21 @@ import java.util.TimeZone
 
 @Serializable
 class WorkDto(
-    val title: String,
-    val slug: String,
-    val cover_url: String? = null,
-    val description: String? = null,
-    val author: String? = null,
-    val artist: String? = null,
-    val status: String? = null,
-    val type: String? = null,
-    val demographic: String? = null,
+    @SerialName("slug") val id: String,
+    @SerialName("title") val title: String,
+    @SerialName("cover_url") val cover: String? = null,
+    @SerialName("description") val description: String? = null,
+    @SerialName("author") val author: String? = null,
+    @SerialName("artist") val artist: String? = null,
+    @SerialName("status") val status: String? = null
 ) {
     fun toSManga() = SManga.create().apply {
         title = this@WorkDto.title
-        url = "/obra/$slug"
-        thumbnail_url = cover_url
+        url = id
+        thumbnail_url = cover
         author = this@WorkDto.author?.takeIf { it.isNotBlank() && it != "-" }
         artist = this@WorkDto.artist?.takeIf { it.isNotBlank() && it != "-" }
         description = this@WorkDto.description
-        genre = listOfNotNull(
-            type?.let { typeLabels[it] ?: it.lowercase().replaceFirstChar(Char::uppercase) },
-            demographic?.takeIf { it.isNotBlank() },
-        ).joinToString()
         status = parseStatus(this@WorkDto.status)
         initialized = true
     }
@@ -37,43 +32,35 @@ class WorkDto(
 
 @Serializable
 class WorkChaptersDto(
-    val chapters: List<ChapterDto>? = null,
+    @SerialName("chapters") val chapters: List<ChapterDto>? = null,
 )
 
 @Serializable
 class ChapterDto(
     val id: String,
-    val number: Double,
-    val title: String? = null,
-    val created_at: String? = null,
+    @SerialName("number") val number: Double,
+    @SerialName("title") val title: String? = null,
+    @SerialName("created_at") val createdAt: String? = null,
 ) {
     fun toSChapter() = SChapter.create().apply {
         url = id
         val num = if (number % 1.0 == 0.0) number.toInt().toString() else number.toString()
         name = "Capítulo $num" + (title?.takeIf { it.isNotBlank() }?.let { " - $it" }.orEmpty())
         chapter_number = number.toFloat()
-        date_upload = parseDate(created_at)
+        date_upload = parseDate(createdAt)
     }
 }
 
 @Serializable
 class ChapterPagesDto(
-    val pages: List<String>? = null,
+    @SerialName("pages") val pages: List<String>? = null,
 )
 
-private val typeLabels = mapOf(
-    "MANGA" to "Mangá",
-    "MANHWA" to "Manhwa",
-    "MANHUA" to "Manhua",
-    "WEBTOON" to "Webtoon",
-    "NOVEL" to "Novel",
-)
-
-private fun parseStatus(status: String?) = when (status?.uppercase()) {
-    "RELEASING" -> SManga.ONGOING
-    "COMPLETED" -> SManga.COMPLETED
-    "HIATUS" -> SManga.ON_HIATUS
-    "CANCELLED" -> SManga.CANCELLED
+private fun parseStatus(status: String?) = when (status?.lowercase()) {
+    "releasing", "ongoing", "em andamento", "andamento", "em lançamento" -> SManga.ONGOING
+    "completed", "concluído", "concluido", "finalizado", "completo" -> SManga.COMPLETED
+    "hiatus", "hiato", "em hiato" -> SManga.ON_HIATUS
+    "cancelled", "canceled", "cancelado" -> SManga.CANCELLED
     else -> SManga.UNKNOWN
 }
 
