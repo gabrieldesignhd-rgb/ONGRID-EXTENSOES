@@ -1,0 +1,11 @@
+{
+  "pkg": "eu.kanade.tachiyomi.extension.pt.mangastop",
+  "name": "Manga Stop",
+  "lang": "pt-BR",
+  "baseUrl": "https://mangastop.net",
+  "id": "924359643993288771",
+  "versionCode": 43,
+  "version": "1.4.43",
+  "nsfw": 0,
+  "origin": "keiyoushi"
+}
