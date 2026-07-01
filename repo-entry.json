@@ -1,0 +1,17 @@
+{
+  "name": "Tachiyomi: Lycan Toons",
+  "pkg": "eu.kanade.tachiyomi.extension.pt.lycantoons",
+  "apk": "tachiyomi-pt.lycantoons-v1.4.7.apk",
+  "lang": "pt-BR",
+  "code": 7,
+  "version": "1.4.7",
+  "nsfw": 0,
+  "sources": [
+    {
+      "name": "Lycan Toons",
+      "lang": "pt-BR",
+      "id": "9117178890425713139",
+      "baseUrl": "https://lycantoons.com"
+    }
+  ]
+}

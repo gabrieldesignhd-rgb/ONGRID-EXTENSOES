@@ -1,0 +1,5 @@
+signingkey.jks
+.secrets/
+builder/
+publish/
+*.log
