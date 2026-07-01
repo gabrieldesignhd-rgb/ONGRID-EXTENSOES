@@ -55,8 +55,35 @@ def main() -> None:
         if not module_dir.is_dir():
             continue
         pkg = module_dir.name
-        meta = parse_gradle(module_dir / "build.gradle.kts")
-        version_name = f"{meta['lib_version']}.{meta['version_code']}"
+        meta_file = module_dir / "source-meta.json"
+
+        if meta_file.exists():
+            # Fonte importada do keiyoushi: metadados prontos (id e versão reais deles).
+            m = json.loads(meta_file.read_text(encoding="utf-8"))
+            full_pkg = m["pkg"]
+            version_name = m["version"]
+            code = m["versionCode"]
+            nsfw = m["nsfw"]
+            src = {
+                "name": m["name"],
+                "lang": m["lang"],
+                "id": m["id"],
+                "baseUrl": m["baseUrl"],
+            }
+        else:
+            # Fonte gerada localmente: lê do build.gradle.
+            meta = parse_gradle(module_dir / "build.gradle.kts")
+            full_pkg = f"eu.kanade.tachiyomi.extension.pt.{pkg}"
+            version_name = f"{meta['lib_version']}.{meta['version_code']}"
+            code = meta["version_code"]
+            nsfw = 1 if meta["content_warning"] == "NSFW" else 0
+            src = {
+                "name": meta["name"],
+                "lang": meta["lang"],
+                "id": source_id(meta["name"], meta["lang"]),
+                "baseUrl": meta["base_url"],
+            }
+
         apk_name = f"tachiyomi-pt.{pkg}-v{version_name}.apk"
 
         built_apks = list(Path(f"builder/src/pt/{pkg}/build/outputs/apk").rglob("*.apk"))
@@ -65,25 +92,18 @@ def main() -> None:
         shutil.copy(built_apks[0], publish / "apk" / apk_name)
 
         icon_src = module_dir / "res" / "mipmap-xxxhdpi" / "ic_launcher.png"
-        shutil.copy(icon_src, publish / "icon" / f"eu.kanade.tachiyomi.extension.pt.{pkg}.png")
+        shutil.copy(icon_src, publish / "icon" / f"{full_pkg}.png")
 
         entries.append(
             {
-                "name": f"Tachiyomi: {meta['name']}",
-                "pkg": f"eu.kanade.tachiyomi.extension.pt.{pkg}",
+                "name": f"Tachiyomi: {src['name']}",
+                "pkg": full_pkg,
                 "apk": apk_name,
-                "lang": meta["lang"],
-                "code": meta["version_code"],
+                "lang": src["lang"],
+                "code": code,
                 "version": version_name,
-                "nsfw": 1 if meta["content_warning"] == "NSFW" else 0,
-                "sources": [
-                    {
-                        "name": meta["name"],
-                        "lang": meta["lang"],
-                        "id": source_id(meta["name"], meta["lang"]),
-                        "baseUrl": meta["base_url"],
-                    }
-                ],
+                "nsfw": nsfw,
+                "sources": [src],
             }
         )
 
