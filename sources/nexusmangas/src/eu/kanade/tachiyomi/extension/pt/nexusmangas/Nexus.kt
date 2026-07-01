@@ -35,15 +35,13 @@ abstract class Nexus : HttpSource() {
 
     // =====================Popular=====================
 
-    override fun popularMangaRequest(page: Int): Request =
-        worksRequest(page, "order=rating_count.desc.nullslast")
+    override fun popularMangaRequest(page: Int): Request = worksRequest(page, "order=rating_count.desc.nullslast")
 
     override fun popularMangaParse(response: Response): MangasPage = worksParse(response)
 
     // =====================Latest=====================
 
-    override fun latestUpdatesRequest(page: Int): Request =
-        worksRequest(page, "order=updated_at.desc.nullslast")
+    override fun latestUpdatesRequest(page: Int): Request = worksRequest(page, "order=updated_at.desc.nullslast")
 
     override fun latestUpdatesParse(response: Response): MangasPage = worksParse(response)
 
@@ -75,11 +73,9 @@ abstract class Nexus : HttpSource() {
 
     override fun getMangaUrl(manga: SManga): String = "$baseUrl${manga.url}"
 
-    override fun mangaDetailsRequest(manga: SManga): Request =
-        GET("$API_URL/works?slug=eq.${manga.slug()}&select=*", headers)
+    override fun mangaDetailsRequest(manga: SManga): Request = GET("$API_URL/works?slug=eq.${manga.slug()}&select=*", headers)
 
-    override fun mangaDetailsParse(response: Response): SManga =
-        response.parseAs<List<WorkDto>>().first().toSManga()
+    override fun mangaDetailsParse(response: Response): SManga = response.parseAs<List<WorkDto>>().first().toSManga()
 
     // =====================Chapters=====================
 
@@ -96,8 +92,7 @@ abstract class Nexus : HttpSource() {
 
     // =====================Pages=====================
 
-    override fun pageListRequest(chapter: SChapter): Request =
-        GET("$API_URL/chapters?id=eq.${chapter.url}&select=pages", headers)
+    override fun pageListRequest(chapter: SChapter): Request = GET("$API_URL/chapters?id=eq.${chapter.url}&select=pages", headers)
 
     override fun pageListParse(response: Response): List<Page> {
         val chapter = response.parseAs<List<ChapterPagesDto>>().firstOrNull()
