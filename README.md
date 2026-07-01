@@ -6,7 +6,7 @@ Repositório pessoal de extensões compatíveis com Mihon.
 
 - Lycan Toons (`pt-BR`)
 - Ninja Comics (`pt-BR`)
-- Tyiyo (`pt-BR`)
+- Taiyo (`pt-BR`)
 
 O código-fonte fica na branch `main`. O GitHub Actions compila, assina e publica
 automaticamente os APKs e o `index.min.json` na branch gerada `repo`.
