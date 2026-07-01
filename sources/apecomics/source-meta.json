@@ -1,0 +1,11 @@
+{
+  "pkg": "eu.kanade.tachiyomi.extension.pt.apecomics",
+  "name": "Capitoons",
+  "lang": "pt-BR",
+  "baseUrl": "https://capitoons.com",
+  "id": "4475020039832513819",
+  "versionCode": 47,
+  "version": "1.4.47",
+  "nsfw": 0,
+  "origin": "keiyoushi"
+}
