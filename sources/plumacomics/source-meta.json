@@ -1,0 +1,11 @@
+{
+  "pkg": "eu.kanade.tachiyomi.extension.pt.plumacomics",
+  "name": "Pluma Comics",
+  "lang": "pt-BR",
+  "baseUrl": "https://plumacomics.cloud",
+  "id": "3795139541047356251",
+  "versionCode": 50,
+  "version": "1.4.50",
+  "nsfw": 0,
+  "origin": "keiyoushi"
+}
