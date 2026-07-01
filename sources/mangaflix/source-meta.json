@@ -1,0 +1,11 @@
+{
+  "pkg": "eu.kanade.tachiyomi.extension.pt.mangaflix",
+  "name": "MangaFlix",
+  "lang": "pt-BR",
+  "baseUrl": "https://mangaflix.net",
+  "id": "6813136769153267900",
+  "versionCode": 4,
+  "version": "1.4.4",
+  "nsfw": 1,
+  "origin": "keiyoushi"
+}
